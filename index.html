@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Countdown Timer</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div>
+    <input type="text" id="timeCount" placeholder="Enter time in seconds" />
+  </div>
+  <div>
+    <h2 id="current-time">0</h2>
+  </div>
+
+  <script>
+    let countdownInterval;
+
+    function startCountdown(seconds) {
+      let count = Math.floor(seconds);
+
+      const currentTime = $("#current-time");
+
+      currentTime.text(count);
+
+      countdownInterval = setInterval(function () {
+        count--;
+
+        if (count < 0) {
+          clearInterval(countdownInterval);
+          count = 0;
+        }
+
+        currentTime.text(count);
+      }, 1000);
+    }
+
+    function stopCountdown() {
+      clearInterval(countdownInterval);
+    }
+
+    $(document).ready(function () {
+      $("#timeCount").keydown(function (event) {
+        if (event.keyCode === 13) {
+          const input = $(this).val();
+          const seconds = parseInt(input);
+
+          if (!isNaN(seconds)) {
+            stopCountdown();
+            startCountdown(seconds);
+          } else {
+            $("#current-time").text(0);
+          }
+
+          $(this).val("");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
